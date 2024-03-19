@@ -2,7 +2,6 @@
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -16,22 +15,21 @@ import { Button } from "../ui/button";
 import { Menu, ChevronsUpDown, Check } from "lucide-vue-next";
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { ref } from "vue";
-import router from "@/middleware/router";
+import { isDeviceMobile } from "@/util/mobileUtils";
 
 // TODO: implement database action
 // TODO: Make selectedTeam stored in local storage and update it on change -> Util?
 const availableTeams = ref<string[]>(["Bellegems Friethuisje", "KFC"]);
 const selectedTeam = ref<string>("Bellegems Friethuisje");
+
+const isMobile = ref<boolean>(isDeviceMobile());
 
 const changeTeam = (team: string) => {
   selectedTeam.value = team;
@@ -46,14 +44,15 @@ const changeTeam = (team: string) => {
           <Menu :size="20" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left">
+      <SheetContent side="left" class="w-full">
         <SheetHeader class="mb-4">
-          <SheetTitle>WareWise</SheetTitle>
+          <SheetTitle class="text-left">WareWise</SheetTitle>
         </SheetHeader>
-        <Popover class="">
+
+        <Popover class="relative">
           <PopoverTrigger as-child>
             <Button
-              class="w-[200px] justify-between"
+              class="md:w-[200px] w-full justify-between"
               size="sm"
               variant="outline"
             >
@@ -61,7 +60,7 @@ const changeTeam = (team: string) => {
               <ChevronsUpDown :size="16" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent class="w-[200px] p-0">
+          <PopoverContent class="w-full md:w-[200px] p-0">
             <!-- implement command palet -->
             <Command>
               <CommandList>
